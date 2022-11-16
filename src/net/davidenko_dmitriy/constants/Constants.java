@@ -20,6 +20,8 @@ public abstract class Constants {
     public static final int Professional_Horizontal_Size = 30;
     public static final int Professional_Vertical_Size = 16;
     public static final int Professional_Bombs_Count = 99;
+    public static final int Max_Horizontal_Size = 512;
+    public static final int Max_Vertical_Size = 512;
     public static final int Settings_Window_Width = 400;
     public static final int Settings_Window_Height = 300;
 
