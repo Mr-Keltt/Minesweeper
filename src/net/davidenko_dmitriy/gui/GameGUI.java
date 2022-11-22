@@ -1,7 +1,6 @@
 package net.davidenko_dmitriy.gui;
 
 import net.davidenko_dmitriy.constants.Constants;
-import net.davidenko_dmitriy.gui.Сounter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,20 +12,15 @@ public class GameGUI extends JFrame {
     private int frameWidth;
     private int frameHeight;
 
-    // text in counters
-
+    // Counters
     private Сounter bombCounter;
-    private JLabel timerValue;
+    private Timer timer;
 
 
     // Constructor
     public GameGUI() {
         // Setting the window name
         super("Minesweeper");
-
-
-        // Init text containers
-        timerValue = new JLabel();
 
 
         // Calculating the size of the window frames
@@ -52,15 +46,14 @@ public class GameGUI extends JFrame {
 
 
     // Setters and getters
-    public void setBombCounterValue(int bombCount) {
-        if (Constants.Max_Horizontal_Size * Constants.Max_Horizontal_Size - 1 < bombCount) {
-            bombCounter.setValue(bombCount);
-        }
+    public Сounter getBombCounter() {
+        return bombCounter;
     }
 
-    public void setTimerValueZero() {
-        timerValue.setText("00:00:00");
+    public Timer getTimer() {
+        return timer;
     }
+
 
     public void setWindowSizeByCells(int horizontalSize, int verticalSize) {
         // create local variables
@@ -88,28 +81,26 @@ public class GameGUI extends JFrame {
         // creature header
         JPanel header = new JPanel();
 
-        // creating a bomb counter
+        // initialization a bomb counter
         bombCounter = new Сounter((Constants.Header_Height - Constants.Score_Height) / 2,
                 (Constants.Header_Height - Constants.Score_Height) / 2,
                 Constants.Beginner_Bombs_Count);
 
-        // creating a timer
-        JPanel timer = new JPanel(new BorderLayout());
+        // initialization a timer
+        timer = new Timer(this.getWidth() - frameWidth - (Constants.Header_Height - Constants.Score_Height) / 2 - Constants.Score_Width,
+                (Constants.Header_Height - Constants.Score_Height)/2,
+                0);
 
 
-        // initializing header elements
         initHeaderPanel(header);
-        initTimer(timer);
 
 
         // adding a header to the screen
         this.add(header);
 
-        // adding a bomb counter to a header
+        // adding a element to a header
         header.add(bombCounter.getCounter());
-
-        // adding a timer to a header
-        header.add(timer);
+        header.add(timer.getCounter());
     }
 
 
@@ -118,25 +109,5 @@ public class GameGUI extends JFrame {
         header.setSize(new Dimension(this.getSize().width, Constants.Header_Height));
         header.setBackground(Constants.Header_Background);
         header.setLayout(null);
-    }
-
-    private void initTimer(JPanel timer) {
-        // setting a parameter timer
-        timer.setSize(new Dimension(Constants.Score_Width, Constants.Score_Height));
-        timer.setLocation(this.getWidth() - frameWidth - (Constants.Header_Height - Constants.Score_Height) / 2 - Constants.Score_Width,
-                (Constants.Header_Height - Constants.Score_Height)/2);
-        timer.setBackground(Constants.Score_Background);
-
-        // setting text display parameters
-        this.timerValue.setForeground(Constants.Score_Text_Color);
-        this.timerValue.setFont(Constants.Score_Text_Font);
-        this.timerValue.setVerticalAlignment(JLabel.CENTER);
-        this.timerValue.setHorizontalAlignment(JLabel.CENTER);
-
-        // adding text to the timer
-        timer.add(timerValue, BorderLayout.CENTER);
-
-        // set start value
-        setTimerValueZero();
     }
 }

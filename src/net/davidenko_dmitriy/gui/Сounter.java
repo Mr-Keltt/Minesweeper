@@ -6,9 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Сounter {
-    private JPanel counter;
-    private JLabel value;
-    private Point location;
+    protected JPanel counter;
+    protected JLabel value;
 
 
 
@@ -18,7 +17,7 @@ public class Сounter {
 
         setLocation(X, Y);
         setValue(startVal);
-        initСounter();
+        init(X, Y);
     }
 
 
@@ -28,25 +27,26 @@ public class Сounter {
 
     public void setValue(int val) {
         // val is within the acceptable range
-        if (val >= -999999 && val <= 999999) {
+        if (val >= -(Constants.Max_Horizontal_Size * Constants.Max_Horizontal_Size - 1) &&
+            val <= Constants.Max_Horizontal_Size * Constants.Max_Horizontal_Size - 1) {
             value.setText(String.valueOf(val));
         }
     }
 
     public void setLocation(int X, int Y) {
-        location = new Point(X, Y);
+        counter.setLocation(X, Y);
     }
 
     public Point getLocation() {
-        return location;
+        return counter.getLocation();
     }
 
 
-    private void initСounter() {
+    private void init(int X, int Y) {
         // setting a parameter counter
         counter.setLayout(new BorderLayout());
         counter.setSize(new Dimension(Constants.Score_Width, Constants.Score_Height));
-        counter.setLocation(location.x, location.y);
+        counter.setLocation(X, Y);
         counter.setBackground(Constants.Score_Background);
 
         // setting text display parameters
@@ -57,5 +57,13 @@ public class Сounter {
 
         // adding text to the counter
         counter.add(value, BorderLayout.CENTER);
+    }
+
+    public void increase() {
+        setValue(Integer.parseInt(value.getText()) + 1);
+    }
+
+    public void reduce() {
+        setValue(Integer.parseInt(value.getText()) - 1);
     }
 }
