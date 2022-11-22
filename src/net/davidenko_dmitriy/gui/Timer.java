@@ -51,6 +51,7 @@ public class Timer extends Сounter {
     }
 
 
+    @Override
     public void increase() {
         if (hours*360 + minutes*60 + seconds < 99*360 + 59*60 + 59*60) {
             setValue(hours * 360 + minutes * 60 + seconds + 1);
@@ -60,6 +61,7 @@ public class Timer extends Сounter {
         }
     }
 
+    @Override
     public void reduce() {
         if (hours*360 + minutes*60 + seconds > 0) {
             setValue(hours * 360 + minutes * 60 + seconds - 1);

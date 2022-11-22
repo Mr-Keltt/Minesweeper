@@ -45,7 +45,7 @@ public class Сounter {
     private void init(int X, int Y) {
         // setting a parameter counter
         counter.setLayout(new BorderLayout());
-        counter.setSize(new Dimension(Constants.Score_Width, Constants.Score_Height));
+        counter.setSize(new Dimension(Constants.Score_Width, Constants.Header_Element_Height));
         counter.setLocation(X, Y);
         counter.setBackground(Constants.Score_Background);
 

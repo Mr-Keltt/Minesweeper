@@ -4,14 +4,10 @@ import net.davidenko_dmitriy.constants.Constants;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
-import java.io.InputStream;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class GameGUI extends JFrame {
-    // Window frame sizes
-    private int frameWidth;
-    private int frameHeight;
-
+public class GameGUI extends GUI {
     // Counters
     private Сounter bombCounter;
     private Timer timer;
@@ -19,42 +15,15 @@ public class GameGUI extends JFrame {
 
     // Constructor
     public GameGUI() {
-        // Setting the window name
         super("Minesweeper");
 
+        JPanel header = createHeader();
 
-        // Calculating the size of the window frames
-        this.setSize(200,200);
-        JPanel test = new JPanel();
-        this.add(test);
-        setVisible(true);
-        frameWidth = this.getWidth() - test.getWidth();
-        frameHeight = this.getHeight() - test.getHeight();
-        this.remove(test);
-
-
-        // Setting window parameters
-        setWindowSizeByCells(Constants.Beginner_Horizontal_Size, Constants.Beginner_Vertical_Size);
-        this.setLocation(Constants.Window_Location_X, Constants.Window_Location_Y);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(false);
-        this.setLayout(null);
-
-
-        drawingHeader();
+        this.add(header);
     }
 
 
     // Setters and getters
-    public Сounter getBombCounter() {
-        return bombCounter;
-    }
-
-    public Timer getTimer() {
-        return timer;
-    }
-
-
     public void setWindowSizeByCells(int horizontalSize, int verticalSize) {
         // create local variables
         int width, height;
@@ -75,39 +44,112 @@ public class GameGUI extends JFrame {
         this.setSize(width + frameWidth, height + frameHeight);
     }
 
+    public Сounter getBombCounter() {
+        return bombCounter;
+    }
 
-    // creating and displaying a header
-    public void drawingHeader() {
-        // creature header
-        JPanel header = new JPanel();
-
-        // initialization a bomb counter
-        bombCounter = new Сounter((Constants.Header_Height - Constants.Score_Height) / 2,
-                (Constants.Header_Height - Constants.Score_Height) / 2,
-                Constants.Beginner_Bombs_Count);
-
-        // initialization a timer
-        timer = new Timer(this.getWidth() - frameWidth - (Constants.Header_Height - Constants.Score_Height) / 2 - Constants.Score_Width,
-                (Constants.Header_Height - Constants.Score_Height)/2,
-                0);
-
-
-        initHeaderPanel(header);
-
-
-        // adding a header to the screen
-        this.add(header);
-
-        // adding a element to a header
-        header.add(bombCounter.getCounter());
-        header.add(timer.getCounter());
+    public Timer getTimer() {
+        return timer;
     }
 
 
+
+    private JPanel createHeader() {
+        JPanel header = new JPanel();
+        JPanel buttonContainer;
+
+        // calculation of the coordinates of the header elements
+        int counterY = (Constants.Header_Height - Constants.Header_Element_Height) / 2;
+        int bombCounterX = (Constants.Header_Height - Constants.Header_Element_Height) / 2;
+        int TimerX = this.getWidth() - frameWidth - (Constants.Header_Height - Constants.Header_Element_Height) / 2 - Constants.Score_Width;
+        int buttonContainerY = (Constants.Header_Height - (int)(Constants.Header_Element_Height*0.8)) / 2;
+        int buttonContainerX = (this.getWidth() - frameWidth) / 2 - ((int)(Constants.Header_Element_Height*0.8)*3 + buttonContainerY*2) / 2;
+
+
+        // create counters
+        bombCounter = new Сounter(bombCounterX, counterY, Constants.Beginner_Bombs_Count);
+        timer = new Timer(TimerX, counterY, 0);
+
+        buttonContainer = createButtonContainer(buttonContainerX, buttonContainerY);
+        initHeaderPanel(header);
+
+        // adding an element to a header
+        header.add(bombCounter.getCounter());
+        header.add(buttonContainer);
+        header.add(timer.getCounter());
+
+
+        return header;
+    }
+
+    private JPanel createButtonContainer(int X, int Y) {
+        JPanel buttonContainer = new JPanel();
+        JButton settingsButton = createButton();
+        JButton restartButton = createButton();
+        JButton switchButton = createButton();
+
+
+        initButtonContainer(buttonContainer, X, Y);
+
+
+        settingsButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                SettingsGUI settingsGUI = new SettingsGUI();
+            }
+        });
+        restartButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        switchButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+
+        buttonContainer.add(settingsButton);
+        buttonContainer.add(restartButton);
+        buttonContainer.add(switchButton);
+
+        return buttonContainer;
+    }
+
+    private JButton createButton() {
+        JButton button = new JButton();
+        //button.setIcon(new ImageIcon("C:\\Users\\MrKeltt\\Desktop\\Programming\\java\\Minesweeper\\src\\net\\davidenko_dmitriy\\resources\\img\\setting_button.png"));
+        //button.setRolloverIcon(new ImageIcon("C:\\Users\\MrKeltt\\Desktop\\Programming\\java\\Minesweeper\\src\\net\\davidenko_dmitriy\\resources\\img\\setting_button.png"));
+        //button.setPressedIcon (new ImageIcon("C:\\Users\\MrKeltt\\Desktop\\Programming\\java\\Minesweeper\\src\\net\\davidenko_dmitriy\\resources\\img\\setting_button.png"));
+
+        //button.setBorderPainted(false);
+        //button.setFocusPainted(false);
+        //button.setContentAreaFilled(false);
+
+        return button;
+    }
+
+    @Override
+    protected void initWindow() {
+        // Setting window parameters
+        setWindowSizeByCells(Constants.Beginner_Horizontal_Size, Constants.Beginner_Vertical_Size);
+        this.setLocation(Constants.Window_Location_X, Constants.Window_Location_Y);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setResizable(false);
+        this.setLayout(null);
+    }
+
     private void initHeaderPanel(JPanel header) {
         // setting a parameter header
+        header.setLayout(null);
         header.setSize(new Dimension(this.getSize().width, Constants.Header_Height));
         header.setBackground(Constants.Header_Background);
-        header.setLayout(null);
+    }
+
+    private void initButtonContainer(JPanel buttonContainer, int X, int Y) {
+        buttonContainer.setLocation(X,Y);
+        buttonContainer.setSize((int)(Constants.Header_Element_Height*0.8)*3 + Y*2, (int)(Constants.Header_Element_Height*0.8));
+        buttonContainer.setOpaque(false);
+        buttonContainer.setLayout(new GridLayout(1, 0, Y, 0));
     }
 }
