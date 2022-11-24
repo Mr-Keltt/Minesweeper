@@ -10,11 +10,12 @@ public class Cell {
         reset();
     }
 
-    public void setType(int type) {
-        if (type >= -1 && type <= 8)
-        {
-            this.type = type;
-        }
+    public void setBomb() {
+        this.type = -10;
+    }
+
+    public void increaseType() {
+        type++;
     }
 
     public int getType() {

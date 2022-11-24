@@ -1,5 +1,6 @@
 package net.davidenko_dmitriy;
 
+import net.davidenko_dmitriy.gamecontron.GameController;
 import net.davidenko_dmitriy.gui.GameGUI;
 import net.davidenko_dmitriy.settings.Settings;
 
@@ -13,5 +14,11 @@ public class Minesweeper {
         //removing the display bug
         gameGUI.setState(Frame.ICONIFIED);
         gameGUI.setState(Frame.NORMAL);
+
+        GameController gameController = new GameController();
+        gameController.createField(10, 10);
+        gameController.zeroingField();
+        gameController.initCells(10);
+        gameController.printField();
     }
 }
