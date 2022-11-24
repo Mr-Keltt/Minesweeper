@@ -1,9 +1,12 @@
 package net.davidenko_dmitriy.gui;
 
 import net.davidenko_dmitriy.constants.Constants;
+import net.davidenko_dmitriy.settings.Settings;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class SettingsGUI extends GUI {
     private JTextField horizontalSizeText;
@@ -19,6 +22,10 @@ public class SettingsGUI extends GUI {
 
         this.add(inputContainer);
         this.add(buttonContainer);
+
+        horizontalSizeText.setText(String.valueOf(Settings.horizontalSize));
+        verticalSizeTest.setText(String.valueOf(Settings.verticalSize));
+        bombCountText.setText(String.valueOf(Settings.bombCount));
     }
 
     // Setters and getters
@@ -26,24 +33,12 @@ public class SettingsGUI extends GUI {
         horizontalSizeText.setText(String.valueOf(horizontalSize));
     }
 
-    public int getHorizontalSize() {
-        return Integer.parseInt(horizontalSizeText.getText());
-    }
-
     public void setVerticalSize(int verticalSize) {
         verticalSizeTest.setText(String.valueOf(verticalSize));
     }
 
-    public int getVerticalSize() {
-        return Integer.parseInt(verticalSizeTest.getText());
-    }
-
     public void setBombCount(int bombCount) {
         horizontalSizeText.setText(String.valueOf(bombCountText));
-    }
-
-    public int getBombCount() {
-        return Integer.parseInt(bombCountText.getText());
     }
 
 
@@ -97,6 +92,14 @@ public class SettingsGUI extends GUI {
     private JButton createButton(String text) {
         JButton button = new JButton(text);
         button.setFont(Constants.Settings_Text_Font);
+
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Settings.horizontalSize = Integer.parseInt(horizontalSizeText.getText());
+                Settings.verticalSize = Integer.parseInt(verticalSizeTest.getText());
+                Settings.bombCount = Integer.parseInt(bombCountText.getText());
+            }
+        });
 
         return button;
     }

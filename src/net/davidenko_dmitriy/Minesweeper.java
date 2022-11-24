@@ -1,6 +1,7 @@
 package net.davidenko_dmitriy;
 
 import net.davidenko_dmitriy.gui.GameGUI;
+import net.davidenko_dmitriy.settings.Settings;
 
 import java.awt.*;
 
