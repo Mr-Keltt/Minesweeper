@@ -1,6 +1,7 @@
 package net.davidenko_dmitriy.gui;
 
 import net.davidenko_dmitriy.constants.Constants;
+import net.davidenko_dmitriy.settings.Settings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GameGUI extends GUI {
+    JPanel header;
+
     // Counters
     private Сounter bombCounter;
     private Timer timer;
@@ -17,39 +20,28 @@ public class GameGUI extends GUI {
     public GameGUI() {
         super("Minesweeper");
 
-        JPanel header = createHeader();
+        header = createHeader();
 
         this.add(header);
     }
 
-
     // Setters and getters
-    public void setWindowSizeByCells(int horizontalSize, int verticalSize) {
-        // create local variables
-        int width, height;
-
-        // calculate window width
-        if (Constants.Cell_Edge_Length * horizontalSize <= Constants.Min_Game_Window_Width) {
-            width = Constants.Min_Game_Window_Width;
-        }
-        else {
-            width = Constants.Cell_Edge_Length * horizontalSize;
-        }
-
-        // calculate and set window height
-        height = Constants.Cell_Edge_Length * verticalSize + Constants.Header_Height;
-
-
-        // set window size
-        this.setSize(width + frameWidth, height + frameHeight);
-    }
-
     public Сounter getBombCounter() {
         return bombCounter;
     }
 
     public Timer getTimer() {
         return timer;
+    }
+
+
+    public void resizeWindow(int horizontalSize, int verticalSize) {
+        this.remove(header);
+
+        setWindowSizeByCells(horizontalSize, verticalSize);
+
+        header = createHeader();
+        this.add(header);
     }
 
 
@@ -67,7 +59,7 @@ public class GameGUI extends GUI {
 
 
         // create counters
-        bombCounter = new Сounter(bombCounterX, counterY, Constants.Beginner_Bombs_Count);
+        bombCounter = new Сounter(bombCounterX, counterY, Settings.bombCount);
         timer = new Timer(TimerX, counterY, 0);
 
         buttonContainer = createButtonContainer(buttonContainerX, buttonContainerY);
@@ -91,10 +83,10 @@ public class GameGUI extends GUI {
 
         initButtonContainer(buttonContainer, X, Y);
 
-
+        GameGUI gameGUI = this;
         settingsButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                SettingsGUI settingsGUI = new SettingsGUI();
+                SettingsGUI settingsGUI = new SettingsGUI(gameGUI);
             }
         });
         restartButton.addActionListener(new ActionListener() {
@@ -151,5 +143,25 @@ public class GameGUI extends GUI {
         buttonContainer.setSize((int)(Constants.Header_Element_Height*0.8)*3 + Y*2, (int)(Constants.Header_Element_Height*0.8));
         buttonContainer.setOpaque(false);
         buttonContainer.setLayout(new GridLayout(1, 0, Y, 0));
+    }
+
+    private void setWindowSizeByCells(int horizontalSize, int verticalSize) {
+        // create local variables
+        int width, height;
+
+        // calculate window width
+        if (Constants.Cell_Edge_Length * horizontalSize <= Constants.Min_Game_Window_Width) {
+            width = Constants.Min_Game_Window_Width;
+        }
+        else {
+            width = Constants.Cell_Edge_Length * horizontalSize;
+        }
+
+        // calculate and set window height
+        height = Constants.Cell_Edge_Length * verticalSize + Constants.Header_Height;
+
+
+        // set window size
+        this.setSize(width + frameWidth, height + frameHeight);
     }
 }

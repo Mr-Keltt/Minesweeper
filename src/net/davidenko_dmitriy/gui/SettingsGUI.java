@@ -9,13 +9,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SettingsGUI extends GUI {
+    private GameGUI gameGUI;
     private JTextField horizontalSizeText;
     private JTextField verticalSizeTest;
     private JTextField bombCountText;
 
 
-    public SettingsGUI() {
+    public SettingsGUI(GameGUI gameGUI) {
         super("Settings Minesweeper");
+
+        this.gameGUI = gameGUI;
 
         JPanel inputContainer = createInputContainer();
         JPanel buttonContainer = createButtonContainer();
@@ -98,6 +101,8 @@ public class SettingsGUI extends GUI {
                 Settings.horizontalSize = Integer.parseInt(horizontalSizeText.getText());
                 Settings.verticalSize = Integer.parseInt(verticalSizeTest.getText());
                 Settings.bombCount = Integer.parseInt(bombCountText.getText());
+
+                gameGUI.resizeWindow(Settings.horizontalSize, Settings.verticalSize);
             }
         });
 
