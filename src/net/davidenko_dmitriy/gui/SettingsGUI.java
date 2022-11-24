@@ -6,13 +6,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SettingsGUI extends GUI {
-    private JLabel horizontalSizeLabel;
-    private JLabel verticalSizeLabel;
-    private JLabel bombCountLabel;
     private JTextField horizontalSizeText;
     private JTextField verticalSizeTest;
     private JTextField bombCountText;
-    private JButton applyButton;
 
 
     public SettingsGUI() {
@@ -25,25 +21,39 @@ public class SettingsGUI extends GUI {
         this.add(buttonContainer);
     }
 
-
-    @Override
-    protected void initWindow() {
-        // Setting window parameters
-        this.setSize(new Dimension(Constants.Settings_Window_Width, Constants.Settings_Window_Height));
-        this.setLocation(Constants.Window_Location_X + 100, Constants.Window_Location_Y + 100);
-        this.setResizable(false);
-        this.setLayout(null);
-        int margin = Constants.Settings_Margin;
-        getRootPane().setBorder(BorderFactory.createEmptyBorder(margin, margin, margin, margin));
+    // Setters and getters
+    public void setHorizontalSize(int horizontalSize) {
+        horizontalSizeText.setText(String.valueOf(horizontalSize));
     }
+
+    public int getHorizontalSize() {
+        return Integer.parseInt(horizontalSizeText.getText());
+    }
+
+    public void setVerticalSize(int verticalSize) {
+        verticalSizeTest.setText(String.valueOf(verticalSize));
+    }
+
+    public int getVerticalSize() {
+        return Integer.parseInt(verticalSizeTest.getText());
+    }
+
+    public void setBombCount(int bombCount) {
+        horizontalSizeText.setText(String.valueOf(bombCountText));
+    }
+
+    public int getBombCount() {
+        return Integer.parseInt(bombCountText.getText());
+    }
+
 
     private JPanel createInputContainer() {
         JPanel inputContainer = new JPanel();
         initInputContainer(inputContainer, 0, 0);
 
-        horizontalSizeLabel = createLabel("Ширина");
-        verticalSizeLabel = createLabel("Высота");
-        bombCountLabel = createLabel("Количество бомб");
+        JLabel horizontalSizeLabel = createLabel("Ширина");
+        JLabel verticalSizeLabel = createLabel("Высота");
+        JLabel bombCountLabel = createLabel("Количество бомб");
         horizontalSizeText = createTextField();
         verticalSizeTest = createTextField();
         bombCountText = createTextField();
@@ -61,11 +71,45 @@ public class SettingsGUI extends GUI {
         JPanel buttonContainer = new JPanel();
         initButtonContainer(buttonContainer, 0, (int)((this.getHeight() - frameHeight)*0.7));
 
-        applyButton = createButton("Применить изменения");
+        JButton applyButton = createButton("Применить изменения");
 
         buttonContainer.add(applyButton);
 
         return buttonContainer;
+    }
+
+    private JLabel createLabel(String text) {
+        JLabel label = new JLabel(text);
+        label.setFont(Constants.Settings_Text_Font);
+
+        return label;
+    }
+
+    private JTextField createTextField() {
+        JTextField textField = new JTextField();
+        textField.setFont(Constants.Settings_Text_Font);
+        int margin = Constants.Settings_Margin;
+        textField.setBorder(BorderFactory.createEmptyBorder(0, margin, 0, margin));
+
+        return textField;
+    }
+
+    private JButton createButton(String text) {
+        JButton button = new JButton(text);
+        button.setFont(Constants.Settings_Text_Font);
+
+        return button;
+    }
+
+    @Override
+    protected void initWindow() {
+        // Setting window parameters
+        this.setSize(new Dimension(Constants.Settings_Window_Width, Constants.Settings_Window_Height));
+        this.setLocation(Constants.Window_Location_X + 100, Constants.Window_Location_Y + 100);
+        this.setResizable(false);
+        this.setLayout(null);
+        int margin = Constants.Settings_Margin;
+        getRootPane().setBorder(BorderFactory.createEmptyBorder(margin, margin, margin, margin));
     }
 
     private void initInputContainer(JPanel inputContainer, int X, int Y) {
@@ -84,26 +128,5 @@ public class SettingsGUI extends GUI {
         buttonContainer.setSize(new Dimension(buttonContainerWidth, buttonContainerHeight));
         buttonContainer.setLocation(X, Y);
         buttonContainer.setLayout(new GridLayout(1, 0, 0, 0));
-    }
-
-    private JLabel createLabel(String text) {
-        JLabel label = new JLabel(text);
-        label.setFont(Constants.Settings_Text_Font);
-
-        return label;
-    }
-
-    private JTextField createTextField() {
-        JTextField textField = new JTextField();
-        textField.setFont(Constants.Settings_Text_Font);
-
-        return textField;
-    }
-
-    private JButton createButton(String text) {
-        JButton button = new JButton(text);
-        button.setFont(Constants.Settings_Text_Font);
-
-        return button;
     }
 }
