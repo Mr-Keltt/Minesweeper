@@ -16,9 +16,5 @@ public class Minesweeper {
         gameGUI.setState(Frame.NORMAL);
 
         GameController gameController = new GameController();
-        gameController.createField(10, 10);
-        gameController.zeroingField();
-        gameController.initCells(10);
-        gameController.printField();
     }
 }

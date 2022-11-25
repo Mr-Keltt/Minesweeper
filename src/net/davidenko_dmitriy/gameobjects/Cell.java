@@ -1,4 +1,4 @@
-package net.davidenko_dmitriy.gamecontron;
+package net.davidenko_dmitriy.gameobjects;
 
 public class Cell {
     private int type;
@@ -8,6 +8,12 @@ public class Cell {
 
     public Cell() {
         reset();
+    }
+
+    public void reset() {
+        type = 0;
+        opened = false;
+        marked = false;
     }
 
     public void setBomb() {
@@ -22,8 +28,10 @@ public class Cell {
         return type;
     }
 
-    public void switchOpened() {
-        opened = !opened;
+    public void open() {
+        if (!marked) {
+            opened = true;
+        }
     }
 
     public boolean getOpened() {
@@ -31,16 +39,12 @@ public class Cell {
     }
 
     public void switchMarked() {
-        marked = !marked;
+        if (!opened) {
+            marked = !marked;
+        }
     }
 
     public boolean getMarked() {
         return marked;
-    }
-
-    public void reset() {
-        type = 0;
-        opened = false;
-        marked = false;
     }
 }
