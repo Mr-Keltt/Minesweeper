@@ -3,10 +3,13 @@ package net.davidenko_dmitriy.gui;
 import net.davidenko_dmitriy.constants.Constants;
 import net.davidenko_dmitriy.settings.Settings;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 public class GameGUI extends GUI {
     JPanel header;
@@ -76,9 +79,9 @@ public class GameGUI extends GUI {
 
     private JPanel createButtonContainer(int X, int Y) {
         JPanel buttonContainer = new JPanel();
-        JButton settingsButton = createButton();
-        JButton restartButton = createButton();
-        JButton switchButton = createButton();
+        JButton settingsButton = createButton("src/net/davidenko_dmitriy/resources/img/setting_button.png");
+        JButton restartButton = createButton("src/net/davidenko_dmitriy/resources/img/setting_button.png");
+        JButton switchButton = createButton("src/net/davidenko_dmitriy/resources/img/setting_button.png");
 
 
         initButtonContainer(buttonContainer, X, Y);
@@ -108,15 +111,16 @@ public class GameGUI extends GUI {
         return buttonContainer;
     }
 
-    private JButton createButton() {
+    private JButton createButton(String path) {
         JButton button = new JButton();
-        //button.setIcon(new ImageIcon("C:\\Users\\MrKeltt\\Desktop\\Programming\\java\\Minesweeper\\src\\net\\davidenko_dmitriy\\resources\\img\\setting_button.png"));
-        //button.setRolloverIcon(new ImageIcon("C:\\Users\\MrKeltt\\Desktop\\Programming\\java\\Minesweeper\\src\\net\\davidenko_dmitriy\\resources\\img\\setting_button.png"));
-        //button.setPressedIcon (new ImageIcon("C:\\Users\\MrKeltt\\Desktop\\Programming\\java\\Minesweeper\\src\\net\\davidenko_dmitriy\\resources\\img\\setting_button.png"));
 
-        //button.setBorderPainted(false);
-        //button.setFocusPainted(false);
-        //button.setContentAreaFilled(false);
+        try {
+            Image icon = ImageIO.read(new File(path));
+            button.setIcon(new ImageIcon(icon));
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         return button;
     }
