@@ -3,34 +3,33 @@ package net.davidenko_dmitriy.constants;
 import java.awt.*;
 
 public abstract class Constants {
-    public static final int Min_Game_Window_Width = 500;
-    public static final int Window_Location_X = 150;
-    public static final int Window_Location_Y = 150;
-    public static final int Header_Height = 70;
-    public static final int Score_Width = 130;
-    public static final int Header_Element_Height = 50;
-    public static final int Cell_Edge_Length = 40;
-    public static final int Beginner_Horizontal_Size = 10;
-    public static final int Beginner_Vertical_Size = 10;
-    public static final int Beginner_Bombs_Count = 10;
-    public static final int Amateur_Horizontal_Size = 16;
-    public static final int Amateur_Vertical_Size = 16;
-    public static final int Amateur_Bombs_Count = 40;
-    public static final int Professional_Horizontal_Size = 30;
-    public static final int Professional_Vertical_Size = 16;
-    public static final int Professional_Bombs_Count = 99;
-    public static final int Max_Horizontal_Size = 512;
-    public static final int Max_Vertical_Size = 512;
-    public static final int Settings_Window_Width = 400;
-    public static final int Settings_Window_Height = 300;
-    public static final int Settings_Margin = 10;
+    public static final int MIN_GAME_WINDOW_WIDTH = 500;
+    public static final int WINDOW_LOCATION_X = 150;
+    public static final int WINDOW_LOCATION_Y = 150;
+    public static final int HEADER_HEIGHT = 70;
+    public static final int SCORE_WIDTH = 130;
+    public static final int HEADER_ELEMENT_HEIGHT = 50;
+    public static final int CELL_EDGE_LENGTH = 40;
+    public static final int START_HORIZONTAL_SIZE = 10;
+    public static final int START_VERTICAL_SIZE = 10;
+    public static final int START_BOMBS_COUNT = 10;
+    public static final int MAX_HORIZONTAL_SIZE = 512;
+    public static final int MAX_VERTICAL_SIZE = 512;
+    public static final int SETTINGS_WINDOW_WIDTH = 400;
+    public static final int SETTINGS_WINDOW_HEIGHT = 300;
+    public static final int SETTINGS_MARGIN = 10;
 
-    public static final Color Header_Background = new  Color(200, 200, 200);
-    public static final Color Score_Background = new  Color(70,0,0);
-    public static final Color Score_Text_Color = new  Color(255,0,0);
+    public static final String SETTING_BUTTON_IMG_PATH = "src/net/davidenko_dmitriy/resources/img/setting_button.png";
+    public static final String RESTART_BUTTON_IMG_PATH = "src/net/davidenko_dmitriy/resources/img/restart_button.png";
+    public static final String RESTART_BUTTON_LOSS_IMG_PATH = "src/net/davidenko_dmitriy/resources/img/restart_button_loss.png";
+    public static final String RESTART_BUTTON_WIN_IMG_PATH = "src/net/davidenko_dmitriy/resources/img/restart_button_win.png";
+    public static final String SWITCH_BUTTON_MARC_IMG_PATH = "src/net/davidenko_dmitriy/resources/img/switch_button_marc.png";
+    public static final String SWITCH_BUTTON_SHOVEL_IMG_PATH = "src/net/davidenko_dmitriy/resources/img/switch_button_shovel.png";
 
+    public static final Color HEADER_BACKGROUND = new  Color(200, 200, 200);
+    public static final Color SCORE_BACKGROUND = new  Color(70,0,0);
+    public static final Color SCORE_TEXT_COLOR = new  Color(255,0,0);
 
-    public static final Font Score_Text_Font = new Font("Arial", Font.BOLD, 30);
-
-    public static final Font Settings_Text_Font = new Font("Arial", Font.BOLD, 20);
+    public static final Font SCORE_TEXT_FONT = new Font("Arial", Font.BOLD, 30);
+    public static final Font SETTINGS_TEXT_FONT = new Font("Arial", Font.BOLD, 20);
 }

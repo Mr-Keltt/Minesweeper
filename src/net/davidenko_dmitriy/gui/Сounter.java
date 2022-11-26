@@ -27,8 +27,8 @@ public class Сounter {
 
     public void setValue(int val) {
         // val is within the acceptable range
-        if (val >= -(Constants.Max_Horizontal_Size * Constants.Max_Horizontal_Size - 1) &&
-            val <= Constants.Max_Horizontal_Size * Constants.Max_Horizontal_Size - 1) {
+        if (val >= -(Constants.MAX_HORIZONTAL_SIZE * Constants.MAX_HORIZONTAL_SIZE - 1) &&
+            val <= Constants.MAX_HORIZONTAL_SIZE * Constants.MAX_HORIZONTAL_SIZE - 1) {
             value.setText(String.valueOf(val));
         }
     }
@@ -45,13 +45,13 @@ public class Сounter {
     private void init(int X, int Y) {
         // setting a parameter counter
         counter.setLayout(new BorderLayout());
-        counter.setSize(new Dimension(Constants.Score_Width, Constants.Header_Element_Height));
+        counter.setSize(new Dimension(Constants.SCORE_WIDTH, Constants.HEADER_ELEMENT_HEIGHT));
         counter.setLocation(X, Y);
-        counter.setBackground(Constants.Score_Background);
+        counter.setBackground(Constants.SCORE_BACKGROUND);
 
         // setting text display parameters
-        value.setForeground(Constants.Score_Text_Color);
-        value.setFont(Constants.Score_Text_Font);
+        value.setForeground(Constants.SCORE_TEXT_COLOR);
+        value.setFont(Constants.SCORE_TEXT_FONT);
         value.setVerticalAlignment(JLabel.CENTER);
         value.setHorizontalAlignment(JLabel.CENTER);
 

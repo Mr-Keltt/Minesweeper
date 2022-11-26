@@ -78,15 +78,15 @@ public class SettingsGUI extends GUI {
 
     private JLabel createLabel(String text) {
         JLabel label = new JLabel(text);
-        label.setFont(Constants.Settings_Text_Font);
+        label.setFont(Constants.SETTINGS_TEXT_FONT);
 
         return label;
     }
 
     private JTextField createTextField() {
         JTextField textField = new JTextField();
-        textField.setFont(Constants.Settings_Text_Font);
-        int margin = Constants.Settings_Margin;
+        textField.setFont(Constants.SETTINGS_TEXT_FONT);
+        int margin = Constants.SETTINGS_MARGIN;
         textField.setBorder(BorderFactory.createEmptyBorder(0, margin, 0, margin));
 
         return textField;
@@ -94,7 +94,7 @@ public class SettingsGUI extends GUI {
 
     private JButton createButton(String text) {
         JButton button = new JButton(text);
-        button.setFont(Constants.Settings_Text_Font);
+        button.setFont(Constants.SETTINGS_TEXT_FONT);
 
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -112,17 +112,17 @@ public class SettingsGUI extends GUI {
     @Override
     protected void initWindow() {
         // Setting window parameters
-        this.setSize(new Dimension(Constants.Settings_Window_Width, Constants.Settings_Window_Height));
-        this.setLocation(Constants.Window_Location_X + 100, Constants.Window_Location_Y + 100);
+        this.setSize(new Dimension(Constants.SETTINGS_WINDOW_WIDTH, Constants.SETTINGS_WINDOW_HEIGHT));
+        this.setLocation(Constants.WINDOW_LOCATION_X + 100, Constants.WINDOW_LOCATION_Y + 100);
         this.setResizable(false);
         this.setLayout(null);
-        int margin = Constants.Settings_Margin;
+        int margin = Constants.SETTINGS_MARGIN;
         getRootPane().setBorder(BorderFactory.createEmptyBorder(margin, margin, margin, margin));
     }
 
     private void initInputContainer(JPanel inputContainer, int X, int Y) {
-        int inputContainerWidth = this.getWidth() - frameWidth - Constants.Settings_Margin*2;
-        int inputContainerHeight = (int)((this.getHeight() - frameHeight)*0.7) - Constants.Settings_Margin;
+        int inputContainerWidth = this.getWidth() - frameWidth - Constants.SETTINGS_MARGIN *2;
+        int inputContainerHeight = (int)((this.getHeight() - frameHeight)*0.7) - Constants.SETTINGS_MARGIN;
 
         inputContainer.setLayout(new GridLayout(3, 2, 10, 10));
         inputContainer.setLocation(X,Y);
@@ -130,8 +130,8 @@ public class SettingsGUI extends GUI {
     }
 
     private void initButtonContainer(JPanel buttonContainer, int X, int Y) {
-        int buttonContainerWidth = this.getWidth() - frameWidth - Constants.Settings_Margin*2;
-        int buttonContainerHeight =  (int)((this.getHeight() - frameHeight)*0.3) - Constants.Settings_Margin*2;
+        int buttonContainerWidth = this.getWidth() - frameWidth - Constants.SETTINGS_MARGIN *2;
+        int buttonContainerHeight =  (int)((this.getHeight() - frameHeight)*0.3) - Constants.SETTINGS_MARGIN *2;
 
         buttonContainer.setSize(new Dimension(buttonContainerWidth, buttonContainerHeight));
         buttonContainer.setLocation(X, Y);

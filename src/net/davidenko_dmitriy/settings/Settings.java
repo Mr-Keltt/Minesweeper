@@ -3,7 +3,7 @@ package net.davidenko_dmitriy.settings;
 import net.davidenko_dmitriy.constants.Constants;
 
 public class Settings {
-    public static int horizontalSize = Constants.Beginner_Horizontal_Size;
-    public static int verticalSize = Constants.Beginner_Vertical_Size;
-    public static int bombCount = Constants.Beginner_Bombs_Count;
+    public static int horizontalSize = Constants.START_HORIZONTAL_SIZE;
+    public static int verticalSize = Constants.START_VERTICAL_SIZE;
+    public static int bombCount = Constants.START_BOMBS_COUNT;
 }

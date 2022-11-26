@@ -54,11 +54,11 @@ public class GameGUI extends GUI {
         JPanel buttonContainer;
 
         // calculation of the coordinates of the header elements
-        int counterY = (Constants.Header_Height - Constants.Header_Element_Height) / 2;
-        int bombCounterX = (Constants.Header_Height - Constants.Header_Element_Height) / 2;
-        int TimerX = this.getWidth() - frameWidth - (Constants.Header_Height - Constants.Header_Element_Height) / 2 - Constants.Score_Width;
-        int buttonContainerY = (Constants.Header_Height - (int)(Constants.Header_Element_Height*0.8)) / 2;
-        int buttonContainerX = (this.getWidth() - frameWidth) / 2 - ((int)(Constants.Header_Element_Height*0.8)*3 + buttonContainerY*2) / 2;
+        int counterY = (Constants.HEADER_HEIGHT - Constants.HEADER_ELEMENT_HEIGHT) / 2;
+        int bombCounterX = (Constants.HEADER_HEIGHT - Constants.HEADER_ELEMENT_HEIGHT) / 2;
+        int TimerX = this.getWidth() - frameWidth - (Constants.HEADER_HEIGHT - Constants.HEADER_ELEMENT_HEIGHT) / 2 - Constants.SCORE_WIDTH;
+        int buttonContainerY = (Constants.HEADER_HEIGHT - (int)(Constants.HEADER_ELEMENT_HEIGHT *0.8)) / 2;
+        int buttonContainerX = (this.getWidth() - frameWidth) / 2 - ((int)(Constants.HEADER_ELEMENT_HEIGHT *0.8)*3 + buttonContainerY*2) / 2;
 
 
         // create counters
@@ -79,9 +79,9 @@ public class GameGUI extends GUI {
 
     private JPanel createButtonContainer(int X, int Y) {
         JPanel buttonContainer = new JPanel();
-        JButton settingsButton = createButton("src/net/davidenko_dmitriy/resources/img/setting_button.png");
-        JButton restartButton = createButton("src/net/davidenko_dmitriy/resources/img/setting_button.png");
-        JButton switchButton = createButton("src/net/davidenko_dmitriy/resources/img/setting_button.png");
+        JButton settingsButton = createButton(Constants.SETTING_BUTTON_IMG_PATH);
+        JButton restartButton = createButton(Constants.RESTART_BUTTON_IMG_PATH);
+        JButton switchButton = createButton(Constants.SWITCH_BUTTON_SHOVEL_IMG_PATH);
 
 
         initButtonContainer(buttonContainer, X, Y);
@@ -128,8 +128,8 @@ public class GameGUI extends GUI {
     @Override
     protected void initWindow() {
         // Setting window parameters
-        setWindowSizeByCells(Constants.Beginner_Horizontal_Size, Constants.Beginner_Vertical_Size);
-        this.setLocation(Constants.Window_Location_X, Constants.Window_Location_Y);
+        setWindowSizeByCells(Constants.START_HORIZONTAL_SIZE, Constants.START_VERTICAL_SIZE);
+        this.setLocation(Constants.WINDOW_LOCATION_X, Constants.WINDOW_LOCATION_Y);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setLayout(null);
@@ -138,13 +138,13 @@ public class GameGUI extends GUI {
     private void initHeaderPanel(JPanel header) {
         // setting a parameter header
         header.setLayout(null);
-        header.setSize(new Dimension(this.getSize().width, Constants.Header_Height));
-        header.setBackground(Constants.Header_Background);
+        header.setSize(new Dimension(this.getSize().width, Constants.HEADER_HEIGHT));
+        header.setBackground(Constants.HEADER_BACKGROUND);
     }
 
     private void initButtonContainer(JPanel buttonContainer, int X, int Y) {
         buttonContainer.setLocation(X,Y);
-        buttonContainer.setSize((int)(Constants.Header_Element_Height*0.8)*3 + Y*2, (int)(Constants.Header_Element_Height*0.8));
+        buttonContainer.setSize((int)(Constants.HEADER_ELEMENT_HEIGHT *0.8)*3 + Y*2, (int)(Constants.HEADER_ELEMENT_HEIGHT *0.8));
         buttonContainer.setOpaque(false);
         buttonContainer.setLayout(new GridLayout(1, 0, Y, 0));
     }
@@ -154,15 +154,15 @@ public class GameGUI extends GUI {
         int width, height;
 
         // calculate window width
-        if (Constants.Cell_Edge_Length * horizontalSize <= Constants.Min_Game_Window_Width) {
-            width = Constants.Min_Game_Window_Width;
+        if (Constants.CELL_EDGE_LENGTH * horizontalSize <= Constants.MIN_GAME_WINDOW_WIDTH) {
+            width = Constants.MIN_GAME_WINDOW_WIDTH;
         }
         else {
-            width = Constants.Cell_Edge_Length * horizontalSize;
+            width = Constants.CELL_EDGE_LENGTH * horizontalSize;
         }
 
         // calculate and set window height
-        height = Constants.Cell_Edge_Length * verticalSize + Constants.Header_Height;
+        height = Constants.CELL_EDGE_LENGTH * verticalSize + Constants.HEADER_HEIGHT;
 
 
         // set window size
