@@ -38,10 +38,10 @@ public class GameGUI extends GUI {
     }
 
 
-    public void resizeWindow(int horizontalSize, int verticalSize) {
+    public void resizeWindow() {
         this.remove(header);
 
-        setWindowSizeByCells(horizontalSize, verticalSize);
+        setWindowSizeByCells();
 
         header = createHeader();
         this.add(header);
@@ -62,10 +62,10 @@ public class GameGUI extends GUI {
 
 
         // create counters
-        bombCounter = new Сounter(bombCounterX, counterY, Settings.bombCount);
-        timer = new Timer(TimerX, counterY, 0);
-
+        bombCounter = new Сounter(bombCounterX, counterY);
         buttonContainer = createButtonContainer(buttonContainerX, buttonContainerY);
+        timer = new Timer(TimerX, counterY);
+
         initHeaderPanel(header);
 
         // adding an element to a header
@@ -128,7 +128,7 @@ public class GameGUI extends GUI {
     @Override
     protected void initWindow() {
         // Setting window parameters
-        setWindowSizeByCells(Constants.START_HORIZONTAL_SIZE, Constants.START_VERTICAL_SIZE);
+        setWindowSizeByCells();
         this.setLocation(Constants.WINDOW_LOCATION_X, Constants.WINDOW_LOCATION_Y);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
@@ -149,9 +149,11 @@ public class GameGUI extends GUI {
         buttonContainer.setLayout(new GridLayout(1, 0, Y, 0));
     }
 
-    private void setWindowSizeByCells(int horizontalSize, int verticalSize) {
-        // create local variables
+    private void setWindowSizeByCells() {
         int width, height;
+        int horizontalSize = Settings.horizontalSize;
+        int verticalSize = Settings.verticalSize;
+
 
         // calculate window width
         if (Constants.CELL_EDGE_LENGTH * horizontalSize <= Constants.MIN_GAME_WINDOW_WIDTH) {

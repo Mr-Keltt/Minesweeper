@@ -9,10 +9,10 @@ public class Timer extends Сounter {
     int minutes;
     int seconds;
 
-    public Timer(int X, int Y, int startVal) {
-        super(X, Y, startVal);
+    public Timer(int X, int Y) {
+        super(X, Y);
+        setValue(0);
     }
-
 
     @Override
     public void setValue(int sec) {
@@ -29,27 +29,6 @@ public class Timer extends Сounter {
 
         value.setText(getTimeString());
     }
-
-    public String getTimeString() {
-        String sHours = String.valueOf(hours);
-        String sMinutes = String.valueOf(minutes);
-        String sSeconds = String.valueOf(seconds);
-
-        if (sHours.length() == 1) {
-            sHours = "0" + sHours;
-        }
-
-        if (sMinutes.length() == 1) {
-            sMinutes = "0" + sMinutes;
-        }
-
-        if (sSeconds.length() == 1) {
-            sSeconds = "0" + sSeconds;
-        }
-
-        return sHours + ":" + sMinutes + ":" + sSeconds;
-    }
-
 
     @Override
     public void increase() {
@@ -69,5 +48,26 @@ public class Timer extends Сounter {
         else {
             setValue(0);
         }
+    }
+
+
+    private String getTimeString() {
+        String sHours = String.valueOf(hours);
+        String sMinutes = String.valueOf(minutes);
+        String sSeconds = String.valueOf(seconds);
+
+        if (sHours.length() == 1) {
+            sHours = "0" + sHours;
+        }
+
+        if (sMinutes.length() == 1) {
+            sMinutes = "0" + sMinutes;
+        }
+
+        if (sSeconds.length() == 1) {
+            sSeconds = "0" + sSeconds;
+        }
+
+        return sHours + ":" + sMinutes + ":" + sSeconds;
     }
 }

@@ -31,20 +31,6 @@ public class SettingsGUI extends GUI {
         bombCountText.setText(String.valueOf(Settings.bombCount));
     }
 
-    // Setters and getters
-    public void setHorizontalSize(int horizontalSize) {
-        horizontalSizeText.setText(String.valueOf(horizontalSize));
-    }
-
-    public void setVerticalSize(int verticalSize) {
-        verticalSizeTest.setText(String.valueOf(verticalSize));
-    }
-
-    public void setBombCount(int bombCount) {
-        horizontalSizeText.setText(String.valueOf(bombCountText));
-    }
-
-
     private JPanel createInputContainer() {
         JPanel inputContainer = new JPanel();
         initInputContainer(inputContainer, 0, 0);
@@ -102,7 +88,11 @@ public class SettingsGUI extends GUI {
                 Settings.verticalSize = Integer.parseInt(verticalSizeTest.getText());
                 Settings.bombCount = Integer.parseInt(bombCountText.getText());
 
-                gameGUI.resizeWindow(Settings.horizontalSize, Settings.verticalSize);
+                gameGUI.resizeWindow();
+
+                //removing the display bug
+                gameGUI.setState(Frame.ICONIFIED);
+                gameGUI.setState(Frame.NORMAL);
             }
         });
 

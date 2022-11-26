@@ -1,6 +1,7 @@
 package net.davidenko_dmitriy.gui;
 
 import net.davidenko_dmitriy.constants.Constants;
+import net.davidenko_dmitriy.settings.Settings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,34 +12,28 @@ public class Сounter {
 
 
 
-    public Сounter(int X, int Y, int startVal) {
+    public Сounter(int X, int Y) {
         counter = new JPanel();
         value = new JLabel();
 
-        setLocation(X, Y);
-        setValue(startVal);
+        setValue(Settings.bombCount);
         init(X, Y);
     }
-
 
     public JPanel getCounter() {
         return counter;
     }
 
     public void setValue(int val) {
-        // val is within the acceptable range
-        if (val >= -(Constants.MAX_HORIZONTAL_SIZE * Constants.MAX_HORIZONTAL_SIZE - 1) &&
-            val <= Constants.MAX_HORIZONTAL_SIZE * Constants.MAX_HORIZONTAL_SIZE - 1) {
-            value.setText(String.valueOf(val));
-        }
+        value.setText(String.valueOf(val));
     }
 
-    public void setLocation(int X, int Y) {
-        counter.setLocation(X, Y);
+    public void increase() {
+        setValue(Integer.parseInt(value.getText()) + 1);
     }
 
-    public Point getLocation() {
-        return counter.getLocation();
+    public void reduce() {
+        setValue(Integer.parseInt(value.getText()) - 1);
     }
 
 
@@ -57,13 +52,5 @@ public class Сounter {
 
         // adding text to the counter
         counter.add(value, BorderLayout.CENTER);
-    }
-
-    public void increase() {
-        setValue(Integer.parseInt(value.getText()) + 1);
-    }
-
-    public void reduce() {
-        setValue(Integer.parseInt(value.getText()) - 1);
     }
 }
