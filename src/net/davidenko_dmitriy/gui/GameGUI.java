@@ -110,13 +110,6 @@ public class GameGUI extends GUI {
 
     private JButton createButton() {
         JButton button = new JButton();
-        //button.setIcon(new ImageIcon("C:\\Users\\MrKeltt\\Desktop\\Programming\\java\\Minesweeper\\src\\net\\davidenko_dmitriy\\resources\\img\\setting_button.png"));
-        //button.setRolloverIcon(new ImageIcon("C:\\Users\\MrKeltt\\Desktop\\Programming\\java\\Minesweeper\\src\\net\\davidenko_dmitriy\\resources\\img\\setting_button.png"));
-        //button.setPressedIcon (new ImageIcon("C:\\Users\\MrKeltt\\Desktop\\Programming\\java\\Minesweeper\\src\\net\\davidenko_dmitriy\\resources\\img\\setting_button.png"));
-
-        //button.setBorderPainted(false);
-        //button.setFocusPainted(false);
-        //button.setContentAreaFilled(false);
 
         return button;
     }
