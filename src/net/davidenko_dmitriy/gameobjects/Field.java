@@ -1,55 +1,60 @@
 package net.davidenko_dmitriy.gameobjects;
 
+import net.davidenko_dmitriy.gamecontron.GameController;
+import net.davidenko_dmitriy.gui.FieldGUI;
 import net.davidenko_dmitriy.settings.Settings;
 
 import java.awt.*;
 
 public class Field {
-    private int markedBombCount;
+    private GameController gameController;
+    private int noMarkedBombCount;
     private int markCount;
 
-    private Cell[][] cellContainer;
+    private Cell[][] container;
     private Point[] bombsCord;
     
     
-    public Field() {
-        cellContainer = new Cell[Settings.horizontalSize][Settings.verticalSize];
+    public Field(GameController gameController) {
+        this.gameController = gameController;
+        this.container = new Cell[Settings.horizontalSize][Settings.verticalSize];
         reset();
     }
 
-    public Cell[][] getCellContainer() {
-        return cellContainer;
+    public Cell[][] getContainer() {
+        return container;
+    }
+
+    public Cell getCell(int X, int Y) {
+        return container[X][Y];
     }
 
     public int getMarkCount() {
         return markCount;
     }
 
-    public int getMarkedBombCount() {
-        return markedBombCount;
+    public int getNoMarkedBombCount() {
+        return noMarkedBombCount;
     }
 
     // restarting the field
     public void reset() {
-        // recreating the cellContainer if the field size has changed
-        if (getCellContainer().length != Settings.horizontalSize || getCellContainer()[0].length != Settings.verticalSize) {
-            cellContainer = new Cell[Settings.horizontalSize][Settings.verticalSize];
-        }
+        container = new Cell[Settings.horizontalSize][Settings.verticalSize];
 
         // reset of all cells
         for (int i = 0; i < Settings.horizontalSize; i++) {
             for (int j = 0; j < Settings.verticalSize; j++) {
-                cellContainer[i][j] = new Cell();
-                cellContainer[i][j].reset();
+                container[i][j] = new Cell();
+                container[i][j].reset();
             }
         }
 
-        markedBombCount = 0;
+        noMarkedBombCount = Settings.bombCount;
         markCount = 0;
     }
 
     // performs actions related to the field required to start the game
-    public void startGame(int startX, int startY) {
+    public void start(int startX, int startY) {
         int bombCount = Settings.bombCount;
         bombsCord = new Point[bombCount];
 
@@ -61,56 +66,51 @@ public class Field {
     }
 
     // opens all touching cells in which there are no bombs
-    public void openCells(int X, int Y) {
-        // There's a bomb in the cell
-        if (cellContainer[X][Y].getType() < 0) {
-            cellContainer[X][Y].open();
+    public void openCells(FieldGUI fieldGUI, int X, int Y) {
+        Cell cell = getCell(X, Y);
+
+        if (cell.getType() < 0) {
+            for (int i = 0; i < bombsCord.length; i++) {
+                getCell(bombsCord[i].x, bombsCord[i].y).open();
+                fieldGUI.getCellGUI(bombsCord[i].x, bombsCord[i].y).open(cell.getType());
+            }
+
+            gameController.lossGame();
+            return;
+        }
+
+        AreaImpact areaImpact = new AreaImpact(X, Y);
+
+        if (cell.getType() == 0) {
+            neatRecursiveOpeningCells(fieldGUI, X, Y);
         }
         else {
-            AreaImpact areaImpact = new AreaImpact(X, Y, Settings.horizontalSize, Settings.verticalSize);
+            boolean nothingAround = true;
+            int countMarks = 0;
 
-            for (int i = 0; i < 5; i++) {
-                Point cords;
-
-                switch (i) {
-                    case 0:
-                        cords = new Point(X, areaImpact.getTopY());
-                        break;
-
-                    case 1:
-                        cords = new Point(areaImpact.getLeftX(), Y);
-                        break;
-
-                    case 2:
-                        cords = new Point(X, Y);
-                        break;
-
-                    case 3:
-                        cords = new Point(areaImpact.getRightX(), Y);
-                        break;
-
-                    default:
-                        cords = new Point(X, areaImpact.getBottomY());
-                        break;
-                }
-
-                Cell cell = cellContainer[cords.x][cords.y];
-
-                // the cell is not marked
-                if (!cell.getMarked()) {
-                    // the cell is empty and not open
-                    if (cell.getType() == 0 && !cell.getOpened()) {
-                        openCells(cords.x, cords.y);
+            for (int i = areaImpact.getLeftX(); i <= areaImpact.getRightX(); i++) {
+                for (int j = areaImpact.getTopY(); j <= areaImpact.getBottomY(); j++) {
+                    if (i == X && j == Y) {
+                        continue;
                     }
 
-                    cell.open();
+                    if (getCell(i,j).getOpened()) {
+                        nothingAround = false;
+                    }
                 }
+            }
+
+            if (nothingAround) {
+                neatRecursiveOpeningCells(fieldGUI, X, Y);
+            }
+            else {
+                sloppyRecursiveOpeningCells(fieldGUI, X, Y);
             }
         }
     }
 
     public void switchMarkedCell(int X, int Y) {
-        Cell cell = cellContainer[X][Y];
+        Cell cell = container[X][Y];
 
         cell.switchMarked();
 
@@ -118,37 +118,59 @@ public class Field {
             markCount++;
 
             if (cell.getType() < 0) {
-                markedBombCount++;
+                noMarkedBombCount--;
             }
         }
         else {
             markCount--;
 
             if (cell.getType() < 0) {
-                markedBombCount--;
+                noMarkedBombCount++;
             }
         }
     }
 
     // todo temporary method for debugging
     public void print() {
-        for (int i = 0; i < cellContainer.length; i++) {
+        for (int i = 0; i < Settings.verticalSize; i++) {
             String s = "";
 
-            for (int j = 0; j < cellContainer[i].length; j++) {
-                s += String.valueOf(cellContainer[i][j].getType()) + "\t";
+            for (int j = 0; j < Settings.horizontalSize; j++) {
+                s += String.valueOf(container[j][i].getType()) + "\t";
             }
 
             System.out.println(s);
         }
     }
 
+    public void sloppyRecursiveOpeningCells(FieldGUI fieldGUI, int X, int Y) {
+        AreaImpact areaImpact = new AreaImpact(X, Y);
+
+        if (countingNearestMarks(X, Y) >= getCell(X,Y).getType()) {
+            for (int i = areaImpact.getLeftX(); i <= areaImpact.getRightX(); i++) {
+                for (int j = areaImpact.getTopY(); j <= areaImpact.getBottomY(); j++) {
+                    Cell curCell = getCell(i, j);
+
+                    if (curCell.getMarked()) {
+                        continue;
+                    }
+                    else if (curCell.getOpened()) {
+                        continue;
+                    }
+
+                    curCell.open();
+                    fieldGUI.getCellGUI(i, j).open(curCell.getType());
+                    openCells(fieldGUI, i, j);
+                }
+            }
+        }
+    }
 
 
     // randomly place bombs across the field and stores their coordinates in a bombsCord array
     private void placeBombs(int startX, int startY) {
-        int horizontalSize = cellContainer.length;
-        int verticalSize = cellContainer[0].length;
+        int horizontalSize = container.length;
+        int verticalSize = container[0].length;
 
         for (int i = 0; i < bombsCord.length; i++) {
             boolean notIs;
@@ -173,7 +195,7 @@ public class Field {
             } while (!notIs);
 
             bombsCord[i] = cord;
-            cellContainer[cord.x][cord.y].setBomb();
+            container[cord.x][cord.y].setBomb();
         }
     }
 
@@ -181,12 +203,57 @@ public class Field {
     private void calculateNeighboringCells(Point cord) {
         int X = cord.x;
         int Y = cord.y;
-        AreaImpact areaImpact = new AreaImpact(X, Y, Settings.horizontalSize, Settings.verticalSize);
+        AreaImpact areaImpact = new AreaImpact(X, Y);
 
         for (int i = areaImpact.getLeftX(); i <= areaImpact.getRightX(); i++) {
             for (int j = areaImpact.getTopY(); j <= areaImpact.getBottomY(); j++) {
-                cellContainer[i][j].increaseType();
+                container[i][j].increaseType();
             }
         }
+    }
+
+    private void neatRecursiveOpeningCells(FieldGUI fieldGUI, int X, int Y) {
+        AreaImpact areaImpact = new AreaImpact(X, Y);
+
+        for (int i = areaImpact.getLeftX(); i <= areaImpact.getRightX(); i++) {
+            for (int j = areaImpact.getTopY(); j <= areaImpact.getBottomY(); j++) {
+                Cell curCell = getCell(i, j);
+
+                if (curCell.getMarked()) {
+                    continue;
+                }
+                else if (curCell.getOpened()) {
+                    continue;
+                }
+                else if (curCell.getType() < 0) {
+                    continue;
+                }
+
+                curCell.open();
+                fieldGUI.getCellGUI(i, j).open(curCell.getType());
+                openCells(fieldGUI, i, j);
+            }
+        }
+    }
+
+    private int countingNearestMarks(int X, int Y) {
+        AreaImpact areaImpact = new AreaImpact(X, Y);
+        int countMarks = 0;
+
+        for (int i = areaImpact.getLeftX(); i <= areaImpact.getRightX(); i++) {
+            for (int j = areaImpact.getTopY(); j <= areaImpact.getBottomY(); j++) {
+                if (i == X && j == Y) {
+                    continue;
+                }
+
+                Cell curCell = getCell(i,j);
+
+                if (curCell.getMarked()) {
+                    countMarks++;
+                }
+            }
+        }
+
+        return countMarks;
     }
 }

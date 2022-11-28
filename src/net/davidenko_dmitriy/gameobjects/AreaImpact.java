@@ -1,5 +1,7 @@
 package net.davidenko_dmitriy.gameobjects;
 
+import net.davidenko_dmitriy.settings.Settings;
+
 public class AreaImpact {
     private int leftX;
     private int rightX;
@@ -7,15 +9,15 @@ public class AreaImpact {
     private int bottomY;
 
 
-    public AreaImpact(int centerX, int centerY, int horizontalFieldSize, int verticalFieldSize) {
+    public AreaImpact(int centerX, int centerY) {
         int horiz = 0;
         int vert = 0;
 
         // location verification
         if (centerX == 0) horiz = -1;
-        if (centerX == horizontalFieldSize - 1) horiz = 1;
+        if (centerX == Settings.horizontalSize - 1) horiz = 1;
         if (centerY == 0) vert = -1;
-        if (centerY == verticalFieldSize - 1) vert = 1;
+        if (centerY == Settings.verticalSize - 1) vert = 1;
 
         // setting up the impact area
         leftX = (horiz != -1) ? centerX - 1 : centerX;
