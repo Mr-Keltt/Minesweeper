@@ -1,5 +1,6 @@
 package net.davidenko_dmitriy.gameobjects;
 
+import net.davidenko_dmitriy.gui.CellGUI;
 import net.davidenko_dmitriy.settings.Settings;
 
 import java.awt.*;
@@ -61,52 +62,8 @@ public class Field {
     }
 
     // opens all touching cells in which there are no bombs
-    public void openCells(int X, int Y) {
-        // There's a bomb in the cell
-        if (cellContainer[X][Y].getType() < 0) {
-            cellContainer[X][Y].open();
-        }
-        else {
-            AreaImpact areaImpact = new AreaImpact(X, Y, Settings.horizontalSize, Settings.verticalSize);
+    public void openCells(CellGUI[][] cellContainerGUI, int X, int Y) {
 
-            for (int i = 0; i < 5; i++) {
-                Point cords;
-
-                switch (i) {
-                    case 0:
-                        cords = new Point(X, areaImpact.getTopY());
-                        break;
-
-                    case 1:
-                        cords = new Point(areaImpact.getLeftX(), Y);
-                        break;
-
-                    case 2:
-                        cords = new Point(X, Y);
-                        break;
-
-                    case 3:
-                        cords = new Point(areaImpact.getRightX(), Y);
-                        break;
-
-                    default:
-                        cords = new Point(X, areaImpact.getBottomY());
-                        break;
-                }
-
-                Cell cell = cellContainer[cords.x][cords.y];
-
-                // the cell is not marked
-                if (!cell.getMarked()) {
-                    // the cell is empty and not open
-                    if (cell.getType() == 0 && !cell.getOpened()) {
-                        openCells(cords.x, cords.y);
-                    }
-
-                    cell.open();
-                }
-            }
-        }
     }
 
     public void switchMarkedCell(int X, int Y) {

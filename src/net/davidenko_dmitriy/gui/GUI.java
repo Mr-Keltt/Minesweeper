@@ -15,6 +15,14 @@ public class GUI extends JFrame {
         initWindow();
     }
 
+    public int getFrameWidth() {
+        return frameWidth;
+    }
+
+    public int getFrameHeight() {
+        return frameHeight;
+    }
+
 
     protected void initWindow() {
         return;

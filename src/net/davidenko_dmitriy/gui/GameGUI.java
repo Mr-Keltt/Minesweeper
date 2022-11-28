@@ -1,6 +1,8 @@
 package net.davidenko_dmitriy.gui;
 
 import net.davidenko_dmitriy.constants.Constants;
+import net.davidenko_dmitriy.gamecontron.GameController;
+import net.davidenko_dmitriy.gameobjects.Field;
 import net.davidenko_dmitriy.settings.Settings;
 
 import javax.imageio.ImageIO;
@@ -12,39 +14,95 @@ import java.io.File;
 import java.io.IOException;
 
 public class GameGUI extends GUI {
-    JPanel header;
-
-    // Counters
+    private GameController gameController;
+    private JPanel header;
     private Сounter bombCounter;
+    private JPanel buttonContainer;
+    private JButton switchButton;
     private Timer timer;
+    private Field field;
+    private FieldGUI fieldGUI;
+    private ActionListener restartActionListener;
+    private int interactionType;
 
 
-    // Constructor
-    public GameGUI() {
+    public GameGUI(GameController gameController, Field field) {
         super("Minesweeper");
 
-        header = createHeader();
+        this.gameController = gameController;
+        this.header = createHeader();
+        this.field = field;
+        this.fieldGUI = new FieldGUI(gameController, this, field);
+        this.interactionType = 0;
 
         this.add(header);
+        this.add(fieldGUI.getContainer());
     }
 
-    // Setters and getters
     public Сounter getBombCounter() {
         return bombCounter;
     }
 
-    public Timer getTimer() {
-        return timer;
+    public FieldGUI getFieldGUI() {
+        return fieldGUI;
     }
 
-
-    public void resizeWindow() {
+    public void reset() {
+        this.interactionType = 0;
         this.remove(header);
+        this.remove(fieldGUI.getContainer());
 
         setWindowSizeByCells();
 
         header = createHeader();
+        fieldGUI.reset();
+
         this.add(header);
+        this.add(fieldGUI.getContainer());
+    }
+
+    public JButton createButton(String pathIcon) {
+        JButton button = new JButton();
+
+        try {
+            Image icon = ImageIO.read(new File(pathIcon));
+            button.setIcon(new ImageIcon(icon));
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return button;
+    }
+
+    public void setActionListenerSwitchButton() {
+        switchButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                gameController.switchInteractionType();
+            }
+        });
+    }
+
+    public void switchImageSwitchButton() {
+        buttonContainer.remove(switchButton);
+
+        try {
+            if (interactionType == 0) {
+                Image icon = ImageIO.read(new File(Constants.SWITCH_BUTTON_MARC_IMG_PATH));
+                switchButton.setIcon(new ImageIcon(icon));
+                interactionType = 1;
+            }
+            else {
+                Image icon = ImageIO.read(new File(Constants.SWITCH_BUTTON_SHOVEL_IMG_PATH));
+                switchButton.setIcon(new ImageIcon(icon));
+                interactionType = 0;
+            }
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        buttonContainer.add(switchButton);
     }
 
 
@@ -78,28 +136,22 @@ public class GameGUI extends GUI {
     }
 
     private JPanel createButtonContainer(int X, int Y) {
-        JPanel buttonContainer = new JPanel();
+        buttonContainer = new JPanel();
         JButton settingsButton = createButton(Constants.SETTING_BUTTON_IMG_PATH);
         JButton restartButton = createButton(Constants.RESTART_BUTTON_IMG_PATH);
-        JButton switchButton = createButton(Constants.SWITCH_BUTTON_SHOVEL_IMG_PATH);
+        switchButton = createButton(Constants.SWITCH_BUTTON_SHOVEL_IMG_PATH);
 
 
         initButtonContainer(buttonContainer, X, Y);
 
-        GameGUI gameGUI = this;
         settingsButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                SettingsGUI settingsGUI = new SettingsGUI(gameGUI);
+                gameController.openSettings();
             }
         });
         restartButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-        switchButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
+                gameController.restartGame();
             }
         });
 
@@ -109,20 +161,6 @@ public class GameGUI extends GUI {
         buttonContainer.add(switchButton);
 
         return buttonContainer;
-    }
-
-    private JButton createButton(String path) {
-        JButton button = new JButton();
-
-        try {
-            Image icon = ImageIO.read(new File(path));
-            button.setIcon(new ImageIcon(icon));
-        }
-        catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        return button;
     }
 
     @Override
